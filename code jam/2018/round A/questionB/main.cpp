@@ -1,24 +1,25 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include<iomanip>
 
 using namespace std;
 
-double sum_of_all(vector<double>each_case, int begin, unsigned long length) {
-    double sum = 0;
-    for(int i=begin; i<length; i++) {
+long double sum_of_all(vector<long double>each_case, long long int begin, unsigned long length) {
+    long double sum = 0;
+    for(long long int i=begin; i<length; i++) {
         sum += each_case[i];
     }
     return sum;
 }
 
-double max_of_two(double a, double b) {
-    if (a>b) return a;
-    return b;
-}
+//long double max_of_two(long double a, long double b) {
+//    if (a>b) return a;
+//    return b;
+//}
 
-int findMid(int begin, int end, double target, vector<double> each_case) {
-    int mid = (begin + end)/2;
+long long int findMid(long long int begin, long long int end, long double target, vector<long double> each_case) {
+    long long int mid = (begin + end)/2;
     if(each_case[mid] == target) {
         return mid;
     }
@@ -32,18 +33,18 @@ int findMid(int begin, int end, double target, vector<double> each_case) {
         end = mid;
     }
 
-    int res = findMid(begin, end, target, each_case);
+    long long int res = findMid(begin, end, target, each_case);
     return res;
 }
 
-double getExpectedValue(int num_in_bag, int redip_times, vector<double>each_case) {
+long double getExpectedValue(long long int num_in_bag, long long int redip_times, vector<long double>each_case) {
     sort(each_case.begin(), each_case.end());
-    double ep = sum_of_all(each_case, 0, each_case.size())/num_in_bag;
+    long double ep = sum_of_all(each_case, 0, each_case.size())/num_in_bag;
     if (ep<each_case[each_case.size()-1]) {
         while (redip_times) {
-            int index = findMid(0, each_case.size() - 1, ep, each_case);
-            double sum_of_rest = sum_of_all(each_case, index, each_case.size());
-            ep = (sum_of_rest/num_in_bag) + (index/(double)num_in_bag) * ep;
+            long long int index = findMid(0, each_case.size() - 1, ep, each_case);
+            long double sum_of_rest = sum_of_all(each_case, index, each_case.size());
+            ep = (sum_of_rest/num_in_bag) + (index/(long double)num_in_bag) * ep;
             redip_times--;
         }
     }
@@ -53,30 +54,28 @@ double getExpectedValue(int num_in_bag, int redip_times, vector<double>each_case
 
 
 int main() {
-//    freopen("B-small-practice.in","r", stdin);
-//    freopen("result.out", "w", stdout);
-//
-//    int test_num;
-//    cin >> test_num;
-//    cout << test_num <<endl;
-//    for (int i=0; i<test_num; i++){
-//        int num_in_bag, redip_times;
-//        cin >> num_in_bag >> redip_times;
-//        vector<double> each_case;
-//        while(num_in_bag) {
-//            double ele;
-//            cin >> ele;
-//            each_case.push_back(ele);
-//            num_in_bag--;
-//        }
-//
-//        double res = getExpectedValue(num_in_bag, redip_times, each_case);
-//        cout << "Case #" << i+1 <<": " << res << endl;
-//    }
-//    fclose(stdout);
+    freopen("B-large-practice.in","r", stdin);
+    freopen("result.out", "w", stdout);
 
-    vector<double> each_case = {11,4,7,16,1};
-    double res = getExpectedValue(5, 3, each_case);
-    cout <<res <<endl;
+    long long int test_num;
+    cin >> test_num;
+    for (long long int i=0; i<test_num; i++){
+        long long int num_in_bag, redip_times;
+        cin >> num_in_bag >> redip_times;
+        long long int tmp = num_in_bag;
+        vector<long double> each_case;
+        while(tmp) {
+            long double ele;
+            cin >> ele;
+            each_case.push_back(ele);
+            tmp--;
+        }
+
+        cout<<setiosflags(ios::fixed);  //保证setprecision()是设置小数点后的位数。
+        long double res = getExpectedValue(num_in_bag, redip_times, each_case);
+        cout << "Case #" << i+1 <<": " ;
+        cout << setprecision(6)<< res << endl;
+    }
+
     return 0;
 }
