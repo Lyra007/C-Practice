@@ -57,6 +57,8 @@ int main() {
     freopen("B-large-practice.in","r", stdin);
     freopen("result.out", "w", stdout);
 
+    ios::sync_with_stdio(false);
+
     long long int test_num;
     cin >> test_num;
     for (long long int i=0; i<test_num; i++){
@@ -71,7 +73,7 @@ int main() {
             tmp--;
         }
 
-        cout<<setiosflags(ios::fixed);  //保证setprecision()是设置小数点后的位数。
+        cout << setiosflags(ios::fixed);  //保证setprecision()是设置小数点后的位数。
         long double res = getExpectedValue(num_in_bag, redip_times, each_case);
         cout << "Case #" << i+1 <<": " ;
         cout << setprecision(6)<< res << endl;
